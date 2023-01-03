@@ -6,26 +6,22 @@ const baseUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
 findBtn.addEventListener("click", getPokemon);
 
-function getPokemon() {
+async function getPokemon() {
     let fullUrl = baseUrl;
     if (query.value.trim !== "") {
         fullUrl += query.value.toLowerCase();
     } else {s
         fullUrl += 'pikachu';
     }
-    fetch(fullUrl, {mode: 'cors'})
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        console.log(data);
+    try {
+        const response = await fetch(fullUrl, { mode: 'cors' });
+        const data = await response.json();
         setPokemonData(data);
         query.value = "";
-    })
-        .catch(function (error) {
-            console.log(error);
+    } catch (error) {
         setErrorMessage();
-    });
+    }
+   
 }
 
 function setPokemonData(data) {
